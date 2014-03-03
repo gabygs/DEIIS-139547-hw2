@@ -50,7 +50,7 @@ public class NGramAnnotator extends JCasAnnotator_ImplBase{
 				ngram_elems= new FSArray(aJCas,1);
 				ngram_elems.set(0, token_array.get(i));
 				
-				ngrams.addToIndexes();
+				//ngrams.addToIndexes();
 			}
 		}
 		
@@ -60,15 +60,7 @@ public class NGramAnnotator extends JCasAnnotator_ImplBase{
 		NGram ngram = new NGram(aJCas);
 		String[] lines = inText.split("\n");
 		
-		ngram.setElements(arr);
-		ngram.setCasProcessorId(this.annotatorID);
-		if(text.charAt(ant)=='Q') {
-			ngram.setElementType("Question");
-		} else if(text.charAt(ant)=='A') {
-			ngram.setElementType("Answer");
-		ngram.setBegin( ((Annotation)arr.get( 0 )).getBegin() );
-		ngram.setEnd( ((Annotation)arr.get( size - 1 )).getEnd() );
-		return ngram;
+				return ngram;
 	}
 }
 
