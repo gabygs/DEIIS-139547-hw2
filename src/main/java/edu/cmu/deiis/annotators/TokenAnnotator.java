@@ -23,6 +23,8 @@ public class TokenAnnotator extends JCasAnnotator_ImplBase  {
 		Token token;
         int indexCount=0;
         int dummy=0;
+        int q_a=0;
+        
         for(int L=0;L<lines.length;L++){
         	System.out.println(lines[L].toString());
         	System.out.println("Length: "+lines[L].length());
@@ -36,20 +38,16 @@ public class TokenAnnotator extends JCasAnnotator_ImplBase  {
 			if(eachline.startsWith("Q ")){
 				cutline=eachline.substring(2, eachline.length());
 				indexCount=indexCount+2;
+				q_a=1;
 			}else if(eachline.startsWith("A ")){
 				cutline=eachline.substring(4, eachline.length());
 				indexCount=indexCount+4;
+				q_a=0;
 			}
 			
 			//words = cutline.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
 			//words = cutline.replaceAll("[']","_").toLowerCase().split("\\s+");
 			words = cutline.replaceAll("['.,?!]"," ").toLowerCase().split("\\s+");
-			
-			//words = cutline.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
-			/*for(int ws=0;ws<words.length;ws++){
-				System.out.println("W: "+words[ws]);
-				//System.out.println("INDEX overall: "+cutline.toLowerCase().indexOf(words[ws]));
-			}*/
 			
 			for(int ws=0;ws<words.length;ws++){
 					token=new Token(aJCas);
@@ -61,6 +59,11 @@ public class TokenAnnotator extends JCasAnnotator_ImplBase  {
 		            System.out.println("i: "+beg_ind);
 		            System.out.println("j: "+end_ind);
 		            
+		            if(q_a==1){
+		            	token.setToken_type("Q");
+		            }else if(q_a==0){
+		            	token.setToken_type("A");
+		            }
 		            token.setBegin(beg_ind);
 		            token.setEnd(end_ind);
 		            token.setCasProcessorId(this.annotatorID);

@@ -11,8 +11,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Mon Mar 03 03:36:03 CST 2014
- * XML source: /Users/IBAGNOG/Documents/workspace/hw2-139547/src/main/resources/hw2-139547-aae.xml
+ * Updated by JCasGen Mon Mar 03 15:45:21 CST 2014
+ * XML source: /Users/IBAGNOG/Documents/workspace/hw2-139547/src/main/resources/descriptors/deiis_types.xml
  * @generated */
 public class Token extends Annotation {
   /** @generated
@@ -61,6 +61,26 @@ public class Token extends Annotation {
    */
   private void readObject() {/*default - does nothing empty block */}
      
-}
+  //*--------------*
+  //* Feature: token_type
+
+  /** getter for token_type - gets Identifier for the token. If it comes from an Answer it will contain an "A", else it will contain a "Q".
+   * @generated
+   * @return value of the feature 
+   */
+  public String getToken_type() {
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_token_type == null)
+      jcasType.jcas.throwFeatMissing("token_type", "edu.cmu.deiis.types.Token");
+    return jcasType.ll_cas.ll_getStringValue(addr, ((Token_Type)jcasType).casFeatCode_token_type);}
+    
+  /** setter for token_type - sets Identifier for the token. If it comes from an Answer it will contain an "A", else it will contain a "Q". 
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setToken_type(String v) {
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_token_type == null)
+      jcasType.jcas.throwFeatMissing("token_type", "edu.cmu.deiis.types.Token");
+    jcasType.ll_cas.ll_setStringValue(addr, ((Token_Type)jcasType).casFeatCode_token_type, v);}    
+  }
 
     
