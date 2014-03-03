@@ -21,8 +21,7 @@ import java.util.*;
 public class AnswerScoringAnnotator extends JCasAnnotator_ImplBase{
 
 	@Override
-	public void process(JCas arg0) throws AnalysisEngineProcessException {
-		// TODO Auto-generated method stub
+	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		
 	}
 

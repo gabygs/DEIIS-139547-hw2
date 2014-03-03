@@ -4,15 +4,9 @@
  */
 package edu.cmu.deiis.annotators;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.FSIterator;
-import org.apache.uima.cas.text.AnnotationIndex;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.jcas.tcas.Annotation;
 
 import edu.cmu.deiis.types.*;
 
@@ -22,8 +16,60 @@ public class TokenAnnotator extends JCasAnnotator_ImplBase  {
 
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
+		//get incoming text
+		String inText = aJCas.getDocumentText();
+		//split lines
+		String[] lines = inText.split("\n");
+		Token token;
+        int indexCount=0;
+        int dummy=lines[0].length();
 		
-		
+		for(int numL=0; numL < lines.length; numL++){
+			String eachline = lines[numL];
+			//int numChar=eachline.length();
+			
+			String cutline=null;
+	        String[] words;
+			
+			if(eachline.startsWith("Q ")){
+				cutline=eachline.substring(2, eachline.length());
+				indexCount=indexCount+2;
+			}else if(eachline.startsWith("A ")){
+				cutline=eachline.substring(4, eachline.length());
+				indexCount=indexCount+4;
+			}
+			
+			words = cutline.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
+			
+			//words = cutline.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
+			for(int ws=0;ws<words.length;ws++){
+				System.out.println("W: "+words[ws]);
+				System.out.println("INDEX overall: "+cutline.toLowerCase().indexOf(words[ws]));
+			}
+			
+			for(int ws=0;ws<words.length-1;ws++){
+					token=new Token(aJCas);
+					int beg_ind=0,end_ind=0;
+					
+		            System.out.println(words[ws].toString());
+		            beg_ind = cutline.toLowerCase().indexOf(words[ws])+indexCount;
+		            end_ind=beg_ind+words[ws].length();
+		            System.out.println("i: "+beg_ind);
+		            System.out.println("j: "+end_ind);
+		            
+		            token.setBegin(beg_ind);
+		            token.setEnd(end_ind);
+		            token.setCasProcessorId(this.annotatorID);
+		            token.addToIndexes();
+		            //indexCount++;
+		            //indexCount=indexCount+words[ws].length();
+		            //indexCount=indexCount+(cutline.indexOf(words[ws], indexCount));
+		            //System.out.println("INDEX: "+indexCount);
+		        }
+				indexCount=dummy;
+				dummy=lines[numL].length();
+			}
 	}
-	
 }
+	
+

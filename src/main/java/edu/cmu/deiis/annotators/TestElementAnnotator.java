@@ -35,7 +35,6 @@ public class TestElementAnnotator extends JCasAnnotator_ImplBase  {
 				quest.setEnd(l_offset + eachline.length());
 				quest.setCasProcessorId(this.annotatorID);
 				quest.addToIndexes();
-				
 			}
 			if(eachline.startsWith("A ")){
 				anw = new Answer(aJCas);

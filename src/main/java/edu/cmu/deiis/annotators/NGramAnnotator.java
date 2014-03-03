@@ -23,10 +23,12 @@ import java.util.*;
 
 public class NGramAnnotator extends JCasAnnotator_ImplBase{
 	String annotatorID="NGramAnnotator";
+	//For future application might want to turn this N into a parameter.
+	Integer[] possibleNs={1,2,3};
 
 	@Override
 	public void process(JCas aJCas) throws AnalysisEngineProcessException {
 		
-	}
-
+				}
 }
+
