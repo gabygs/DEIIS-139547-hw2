@@ -46,29 +46,34 @@ public class EvaluationAnnotator extends JCasAnnotator_ImplBase{
 		FSIterator<Annotation> iterate_ans_scr = annot_ans_scr.iterator();
 		ArrayList<AnswerScore> top_N = new ArrayList<AnswerScore>();
 		int numCorrect=0;
-		
-		//Check how many answers are correct
-		for(int i=0; i<this.Nval; i++){
-			if(top_N.get(i).getAnswer().getIsCorrect())
-				numCorrect++;
-		}
-		
+		int j=0;
 		
 		while(iterate_ans_scr.hasNext()) {
 			anw_scr = (AnswerScore)iterate_ans_scr.next();
 			top_N.add(anw_scr);
-			}
+			System.out.println(top_N.get(j).toString());
+			System.out.println("HELLOOOOOO");
+			j++;
+		}
+		
+		if(j<this.Nval){
+			System.out.println("Cannot calculate presicion@N, insufficient answers!");
+		}else{
 
-		//Sort according to score in AnswerScore
-		Collections.sort(top_N, new Comparator<AnswerScore>() {
-			@Override
-			public int compare(AnswerScore ans1, AnswerScore ans2) {
-				return ans1.getScore() < ans2.getScore() ? -1 : 1;
+			//Sort according to score in AnswerScore
+			Collections.sort(top_N, new Comparator<AnswerScore>() {
+				@Override
+				public int compare(AnswerScore ans1, AnswerScore ans2) {
+					return ans1.getScore() < ans2.getScore() ? -1 : 1;
+				}
+			});
+			//Check how many answers are correct
+			for(int i=0; i<this.Nval; i++){
+				if(top_N.get(i).getAnswer().getIsCorrect())
+					numCorrect++;
 			}
-		});
-
-		System.out.printf("Precision@N (N=%d): %.3f\n", this.Nval, (double)numCorrect/this.Nval);
+			System.out.printf("Precision@N (N=%d): %.3f\n", this.Nval, (double)numCorrect/this.Nval);
 		}
 	}
+}
 
-//}

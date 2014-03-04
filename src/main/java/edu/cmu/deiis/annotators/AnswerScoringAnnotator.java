@@ -29,7 +29,7 @@ public class AnswerScoringAnnotator extends JCasAnnotator_ImplBase{
 		AnnotationIndex<Annotation> annot_ans = aJCas.getAnnotationIndex(Answer.type);
 		FSIterator<Annotation> ngrams_iter =annot_ngrams.iterator();
 		FSIterator<Annotation> ans_iter =annot_ans.iterator();
-		
+		//NGram ngram;
 		String inText = aJCas.getDocumentText();
 		
 		ArrayList<NGram> q_ngrams =new ArrayList<NGram>();
@@ -63,6 +63,7 @@ public class AnswerScoringAnnotator extends JCasAnnotator_ImplBase{
 				String dummy =inText.substring(ngram.getBegin(),ngram.getEnd()); 
 				q_ngrams_S.add(dummy);
 				currQuest=dummy;
+				System.out.println("CurrQuest:"+currQuest);
 				
 			}
 			if(ngram.getElementType().equals("Answer")){
@@ -72,16 +73,25 @@ public class AnswerScoringAnnotator extends JCasAnnotator_ImplBase{
 				
 				for(int anws=0;anws<countAns;anws++){
 					if(ngram.getEnd()>indx[anws] && ngram.getEnd()<indx[anws])
-						eachAnw[anws]=eachAnw[anws]+" "+dummy;		
+						eachAnw[anws]=eachAnw[anws]+" "+dummy;	
+					System.out.println("EachAns:"+eachAnw[anws]);
+					
 				}
 				
 			}	
 		}
 		
 		//Feed Answers, one by one...
-		Answer answer_a;
+		
+		Answer answer_a=null;
+		System.out.println("CountAns: "+countAns);
+		//Counting is working excelent :)
+		
+		while(ans_iter.hasNext()){
 		for(int anws=0;anws<countAns;anws++){
 			answer_a = (Answer)ans_iter.next();
+			//answer_a = ans_iter.next();
+			
 			score=calculateScore(eachAnw[anws],currQuest);
 			answer_score = new AnswerScore(aJCas);
 			answer_score.setBegin(answer_a.getBegin());
@@ -90,6 +100,7 @@ public class AnswerScoringAnnotator extends JCasAnnotator_ImplBase{
 			answer_score.setScore(score);
 			answer_score.addToIndexes();
 			answer_score.setCasProcessorId(annotatorID);	
+			}
 		}
 		
 	}
