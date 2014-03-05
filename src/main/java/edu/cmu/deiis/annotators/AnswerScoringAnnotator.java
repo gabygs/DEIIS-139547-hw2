@@ -41,6 +41,7 @@ public class AnswerScoringAnnotator extends JCasAnnotator_ImplBase{
         int countAns =0;
         int[] indx =new int[lines.length];
         
+        System.out.println("=================== ANSWER SCORING ======================");
         //Count number of answers and max indexes length for each answer..
         for(int numL=0; numL < lines.length; numL++){
 			String eachline = lines[numL];
@@ -93,6 +94,7 @@ public class AnswerScoringAnnotator extends JCasAnnotator_ImplBase{
 			//answer_a = ans_iter.next();
 			
 			score=calculateScore(eachAnw[anws],currQuest);
+			System.out.println("Answer SCORE: "+score);
 			answer_score = new AnswerScore(aJCas);
 			answer_score.setBegin(answer_a.getBegin());
 			answer_score.setEnd(answer_a.getEnd());
@@ -102,7 +104,9 @@ public class AnswerScoringAnnotator extends JCasAnnotator_ImplBase{
 			answer_score.setCasProcessorId(annotatorID);	
 			}
 		}
-		
+
+        System.out.println("==========================================================");
+        System.out.println("");
 	}
 
 	//Calculate score according to Jaccard Index

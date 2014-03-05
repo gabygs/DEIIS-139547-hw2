@@ -33,6 +33,11 @@
           <description>Identifier for the token. If it comes from an Answer it will contain an "A", else it will contain a "Q".</description>
           <rangeTypeName>uima.cas.String</rangeTypeName>
         </featureDescription>
+      <featureDescription>
+          <name>line_doc</name>
+          <description>To which line in the document the token corresponds to.</description>
+          <rangeTypeName>uima.cas.Integer</rangeTypeName>
+        </featureDescription>
       </features>
     </typeDescription>
     <typeDescription>
@@ -50,6 +55,16 @@
           <name>elementType</name>
           <description/>
           <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+      <featureDescription>
+          <name>line_doc</name>
+          <description>Line in the document to which the NGram corresponds to.</description>
+          <rangeTypeName>uima.cas.Integer</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>n_size</name>
+          <description>Size of the N in the NGram</description>
+          <rangeTypeName>uima.cas.Integer</rangeTypeName>
         </featureDescription>
       </features>
     </typeDescription>

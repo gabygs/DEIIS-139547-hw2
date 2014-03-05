@@ -24,17 +24,28 @@ public class TokenAnnotator extends JCasAnnotator_ImplBase  {
         int indexCount=0;
         int dummy=0;
         int q_a=0;
-        
+        int countLine=1;
+
+        System.out.println("=================== TOKEN ANNOTATOR ======================");
         for(int L=0;L<lines.length;L++){
         	System.out.println(lines[L].toString());
         	System.out.println("Length: "+lines[L].length());
+
         }
+        int[] maxLs=new int [lines.length];
+		
         
 		for(int numL=0; numL < lines.length; numL++){
 			String eachline = lines[numL];
 			String cutline=null;
 	        String[] words;
 			
+	        if(numL==0)
+	        	maxLs[numL]=lines[numL].length();
+	        else{
+	        	maxLs[numL]=maxLs[numL-1]+lines[numL].length()+2;
+	        }
+	        //System.out.println("MAXLS: "+maxLs[numL]);
 			if(eachline.startsWith("Q ")){
 				cutline=eachline.substring(2, eachline.length());
 				indexCount=indexCount+2;
@@ -61,17 +72,30 @@ public class TokenAnnotator extends JCasAnnotator_ImplBase  {
 		            
 		            if(q_a==1){
 		            	token.setToken_type("Q");
+		            	token.setLine_doc(0);
 		            }else if(q_a==0){
 		            	token.setToken_type("A");
+		            	//Get line in document
+		            	if(end_ind<maxLs[countLine]){
+			            	token.setLine_doc(countLine);
+			            }else{
+			            	countLine++;
+			            	token.setLine_doc(countLine);
+			            }
+			            
 		            }
 		            token.setBegin(beg_ind);
 		            token.setEnd(end_ind);
+		            
 		            token.setCasProcessorId(this.annotatorID);
 		            token.addToIndexes();
 		        }
 				indexCount=0;
 				dummy=dummy+lines[numL].length()+1;
 			}
+
+        System.out.println("=======================================================");
+        System.out.println("");
 	}
 }
 	

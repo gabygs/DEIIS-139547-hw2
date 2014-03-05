@@ -11,7 +11,7 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Mon Mar 03 15:45:21 CST 2014
+ * Updated by JCasGen Tue Mar 04 23:32:25 CST 2014
  * XML source: /Users/IBAGNOG/Documents/workspace/hw2-139547/src/main/resources/descriptors/deiis_types.xml
  * @generated */
 public class Token extends Annotation {
@@ -81,6 +81,28 @@ public class Token extends Annotation {
     if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_token_type == null)
       jcasType.jcas.throwFeatMissing("token_type", "edu.cmu.deiis.types.Token");
     jcasType.ll_cas.ll_setStringValue(addr, ((Token_Type)jcasType).casFeatCode_token_type, v);}    
+   
+    
+  //*--------------*
+  //* Feature: line_doc
+
+  /** getter for line_doc - gets To which line in the document the token corresponds to.
+   * @generated
+   * @return value of the feature 
+   */
+  public int getLine_doc() {
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_line_doc == null)
+      jcasType.jcas.throwFeatMissing("line_doc", "edu.cmu.deiis.types.Token");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((Token_Type)jcasType).casFeatCode_line_doc);}
+    
+  /** setter for line_doc - sets To which line in the document the token corresponds to. 
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setLine_doc(int v) {
+    if (Token_Type.featOkTst && ((Token_Type)jcasType).casFeat_line_doc == null)
+      jcasType.jcas.throwFeatMissing("line_doc", "edu.cmu.deiis.types.Token");
+    jcasType.ll_cas.ll_setIntValue(addr, ((Token_Type)jcasType).casFeatCode_line_doc, v);}    
   }
 
     

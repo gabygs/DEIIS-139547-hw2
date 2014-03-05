@@ -26,6 +26,8 @@ public class TestElementAnnotator extends JCasAnnotator_ImplBase  {
 		Answer anw;
 		int l_offset=0;
 		
+
+        System.out.println("=================== TEST ELEMENT ANNOTATOR ======================");
 		//Do line by line parsing, separating Question from Answer.
 		for(int numL=0; numL < lines.length; numL++){
 			String eachline = lines[numL];
@@ -49,7 +51,11 @@ public class TestElementAnnotator extends JCasAnnotator_ImplBase  {
 				anw.addToIndexes();
 			}
 			l_offset+= eachline.length() + 1;
-		}
+
+	    }
+		System.out.println("=======================================================");
+        System.out.println("");
+
 		
 	}
 

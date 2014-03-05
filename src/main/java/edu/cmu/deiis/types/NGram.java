@@ -11,7 +11,7 @@ import org.apache.uima.jcas.cas.FSArray;
 
 
 /** 
- * Updated by JCasGen Mon Mar 03 15:45:21 CST 2014
+ * Updated by JCasGen Tue Mar 04 23:32:25 CST 2014
  * XML source: /Users/IBAGNOG/Documents/workspace/hw2-139547/src/main/resources/descriptors/deiis_types.xml
  * @generated */
 public class NGram extends Annotation {
@@ -121,6 +121,50 @@ public class NGram extends Annotation {
     if (NGram_Type.featOkTst && ((NGram_Type)jcasType).casFeat_elementType == null)
       jcasType.jcas.throwFeatMissing("elementType", "edu.cmu.deiis.types.NGram");
     jcasType.ll_cas.ll_setStringValue(addr, ((NGram_Type)jcasType).casFeatCode_elementType, v);}    
+   
+    
+  //*--------------*
+  //* Feature: line_doc
+
+  /** getter for line_doc - gets Line in the document to which the NGram corresponds to.
+   * @generated
+   * @return value of the feature 
+   */
+  public int getLine_doc() {
+    if (NGram_Type.featOkTst && ((NGram_Type)jcasType).casFeat_line_doc == null)
+      jcasType.jcas.throwFeatMissing("line_doc", "edu.cmu.deiis.types.NGram");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((NGram_Type)jcasType).casFeatCode_line_doc);}
+    
+  /** setter for line_doc - sets Line in the document to which the NGram corresponds to. 
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setLine_doc(int v) {
+    if (NGram_Type.featOkTst && ((NGram_Type)jcasType).casFeat_line_doc == null)
+      jcasType.jcas.throwFeatMissing("line_doc", "edu.cmu.deiis.types.NGram");
+    jcasType.ll_cas.ll_setIntValue(addr, ((NGram_Type)jcasType).casFeatCode_line_doc, v);}    
+   
+    
+  //*--------------*
+  //* Feature: n_size
+
+  /** getter for n_size - gets Size of the N in the NGram
+   * @generated
+   * @return value of the feature 
+   */
+  public int getN_size() {
+    if (NGram_Type.featOkTst && ((NGram_Type)jcasType).casFeat_n_size == null)
+      jcasType.jcas.throwFeatMissing("n_size", "edu.cmu.deiis.types.NGram");
+    return jcasType.ll_cas.ll_getIntValue(addr, ((NGram_Type)jcasType).casFeatCode_n_size);}
+    
+  /** setter for n_size - sets Size of the N in the NGram 
+   * @generated
+   * @param v value to set into the feature 
+   */
+  public void setN_size(int v) {
+    if (NGram_Type.featOkTst && ((NGram_Type)jcasType).casFeat_n_size == null)
+      jcasType.jcas.throwFeatMissing("n_size", "edu.cmu.deiis.types.NGram");
+    jcasType.ll_cas.ll_setIntValue(addr, ((NGram_Type)jcasType).casFeatCode_n_size, v);}    
   }
 
     

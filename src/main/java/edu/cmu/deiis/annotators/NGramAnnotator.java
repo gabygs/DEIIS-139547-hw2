@@ -28,59 +28,104 @@ public class NGramAnnotator extends JCasAnnotator_ImplBase{
 		AnnotationIndex<Annotation> an_toks = aJCas.getAnnotationIndex(Token.type);
 		//Iterators for annotations
 		FSIterator<Annotation> iter_toks = an_toks.iterator();
-		//get incoming text
-		//String inText = aJCas.getDocumentText();
-		//split lines
-		//String[] lines = inText.split("\n");
 		ArrayList<Annotation> tokens = new ArrayList<Annotation>();
 		FSArray tok_elems;
 		NGram ngram;
 		Token tok;
+		int beg_a=0, end_a=0;
+		String type_;
+		
 				
 		while(iter_toks.hasNext()){
 			tokens.add(iter_toks.next());
 		}
-		String type_;
+		
+		
+		//N=1
 		for(int i=0; i<tokens.size(); i++) {
 			tok_elems = new FSArray(aJCas, 1);
 			tok_elems.set(0, tokens.get(i));
 			tok=(Token)tokens.get(i);
 			type_=tok.getToken_type();
-			ngram = buildNGram(tok_elems,type_, aJCas, 1);
+			beg_a=tok.getBegin();
+			end_a=tok.getEnd();
+			ngram = buildNGram(tok_elems,type_, aJCas, 1,beg_a,end_a);
 			ngram.addToIndexes();
-	
-			if((i+1)<tokens.size()) {
-				tok_elems= new FSArray(aJCas, 2);
-				tok_elems.set(0, tokens.get(i));
-				tok_elems.set(1, tokens.get(i+1));
-				tok=(Token)tokens.get(i);
-				type_=tok.getToken_type();
-				ngram = buildNGram(tok_elems,type_, aJCas, 2);
-				ngram.addToIndexes();
-			}
-			if((i+1)<tokens.size() && (i+2)<tokens.size()) {
-				tok_elems = new FSArray(aJCas, 3);
-				tok_elems.set(0, tokens.get(i));
-				tok_elems.set(1, tokens.get(i+1));
-				tok_elems.set(2, tokens.get(i+2));
-				tok=(Token)tokens.get(i);
-				type_=tok.getToken_type();
-				ngram = buildNGram(tok_elems,type_, aJCas, 3);
-				ngram.addToIndexes();
+		}
+		
+		//N=2
+		int L=0;
+		int cur_i=0;
+		int checker;
+		int prevChecker;
+		for(int i=0; i<tokens.size(); i++) {
+		
+			if((cur_i+1)<tokens.size()) {
+				
+				tok=(Token)tokens.get(cur_i);
+				prevChecker=tok.getLine_doc();
+				cur_i++;
+				tok=(Token)tokens.get(cur_i);
+				checker=tok.getLine_doc();
+					
+				if(prevChecker==checker){
+					tok_elems= new FSArray(aJCas, 2);
+					tok_elems.set(0, tokens.get(cur_i-1));
+					tok_elems.set(1, tokens.get(cur_i));
+					tok=(Token)tokens.get(cur_i);
+					type_=tok.getToken_type();
+					beg_a=tokens.get(cur_i-1).getBegin();
+					end_a=tokens.get(cur_i).getEnd();
+					ngram = buildNGram(tok_elems,type_, aJCas, 2,beg_a,end_a);
+					ngram.addToIndexes();
+				}else{
+					L=L+1;
+				}
 			}
 		}
 		
+		//N=3
+		L=0;
+		cur_i=1;
+		
+		for(int i=0; i<tokens.size(); i++) {
+				
+					if((cur_i+1)<tokens.size()) {
+						
+						tok=(Token)tokens.get(cur_i-1);
+						prevChecker=tok.getLine_doc();
+						cur_i++;
+						//cur_i++;
+						tok=(Token)tokens.get(cur_i);
+						checker=tok.getLine_doc();
+							
+						if(prevChecker==checker){
+							tok_elems= new FSArray(aJCas, 3);
+
+							tok_elems.set(0, tokens.get(cur_i-2));
+							tok_elems.set(0, tokens.get(cur_i-1));
+							tok_elems.set(1, tokens.get(cur_i));
+							tok=(Token)tokens.get(cur_i);
+							type_=tok.getToken_type();
+							beg_a=tokens.get(cur_i-2).getBegin();
+							end_a=tokens.get(cur_i).getEnd();
+							ngram = buildNGram(tok_elems,type_, aJCas, 3,beg_a,end_a);
+							ngram.addToIndexes();
+						}else{
+							L=L+1;
+						}
+					}
+				}
 		
 	}
 
-	public NGram buildNGram(FSArray elems, String type_grams, JCas aJCas, int size_N) {
+	public NGram buildNGram(FSArray elems, String type_grams, JCas aJCas, int size_N, int beg_a, int end_a) {
 		NGram ngram = new NGram(aJCas);
 		ngram.setElements(elems);
 		ngram.setCasProcessorId(this.annotatorID);
 		ngram.setElementType(type_grams);
-		ngram.setBegin( ((Annotation)elems.get( 0 )).getBegin() );
-		ngram.setEnd( ((Annotation)elems.get( size_N - 1 )).getEnd() );
-		
+		ngram.setBegin(beg_a);
+		ngram.setEnd(end_a);
 		return ngram;
 	}
 }

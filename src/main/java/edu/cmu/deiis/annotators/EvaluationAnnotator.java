@@ -48,6 +48,8 @@ public class EvaluationAnnotator extends JCasAnnotator_ImplBase{
 		int numCorrect=0;
 		int j=0;
 		
+
+        System.out.println("=================== EVALUATION ANNOTATOR ======================");
 		while(iterate_ans_scr.hasNext()) {
 			anw_scr = (AnswerScore)iterate_ans_scr.next();
 			top_N.add(anw_scr);
@@ -74,6 +76,8 @@ public class EvaluationAnnotator extends JCasAnnotator_ImplBase{
 			}
 			System.out.printf("Precision@N (N=%d): %.3f\n", this.Nval, (double)numCorrect/this.Nval);
 		}
+
+        System.out.println("============================= THE END ======================");
 	}
 }
 
