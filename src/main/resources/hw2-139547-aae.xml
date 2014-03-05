@@ -27,9 +27,7 @@ TestElementAnnotator
 TokenAnnotator
 NGramAnnotator
 AnswerScoringAnnotator
-EvaluationAnnotator
-
-</description>
+EvaluationAnnotator</description>
     <version>1.0</version>
     <vendor>Gabriela Gongora</vendor>
     <configurationParameters searchStrategy="language_fallback">
@@ -48,7 +46,7 @@ EvaluationAnnotator
       <nameValuePair>
         <name>N</name>
         <value>
-          <integer>4</integer>
+          <integer>5</integer>
         </value>
       </nameValuePair>
     </configurationParameterSettings>

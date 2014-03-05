@@ -34,7 +34,8 @@ public class NGramAnnotator extends JCasAnnotator_ImplBase{
 		Token tok;
 		int beg_a=0, end_a=0;
 		String type_;
-		
+		 System.out.println("=================== NGRAM ANNOTATOR ======================");
+			
 				
 		while(iter_toks.hasNext()){
 			tokens.add(iter_toks.next());
@@ -49,7 +50,7 @@ public class NGramAnnotator extends JCasAnnotator_ImplBase{
 			type_=tok.getToken_type();
 			beg_a=tok.getBegin();
 			end_a=tok.getEnd();
-			ngram = buildNGram(tok_elems,type_, aJCas, 1,beg_a,end_a);
+			ngram = buildNGram(tok_elems,type_, aJCas, 1,beg_a,end_a,tok.getLine_doc());
 			ngram.addToIndexes();
 		}
 		
@@ -76,7 +77,7 @@ public class NGramAnnotator extends JCasAnnotator_ImplBase{
 					type_=tok.getToken_type();
 					beg_a=tokens.get(cur_i-1).getBegin();
 					end_a=tokens.get(cur_i).getEnd();
-					ngram = buildNGram(tok_elems,type_, aJCas, 2,beg_a,end_a);
+					ngram = buildNGram(tok_elems,type_, aJCas, 2,beg_a,end_a,tok.getLine_doc());
 					ngram.addToIndexes();
 				}else{
 					L=L+1;
@@ -109,23 +110,27 @@ public class NGramAnnotator extends JCasAnnotator_ImplBase{
 							type_=tok.getToken_type();
 							beg_a=tokens.get(cur_i-2).getBegin();
 							end_a=tokens.get(cur_i).getEnd();
-							ngram = buildNGram(tok_elems,type_, aJCas, 3,beg_a,end_a);
+							ngram = buildNGram(tok_elems,type_, aJCas, 3,beg_a,end_a,tok.getLine_doc());
 							ngram.addToIndexes();
 						}else{
 							L=L+1;
 						}
 					}
 				}
-		
+		System.out.println("");
+
 	}
 
-	public NGram buildNGram(FSArray elems, String type_grams, JCas aJCas, int size_N, int beg_a, int end_a) {
+	public NGram buildNGram(FSArray elems, String type_grams, JCas aJCas, int size_N, int beg_a, int end_a,int line_doc) {
 		NGram ngram = new NGram(aJCas);
 		ngram.setElements(elems);
-		ngram.setCasProcessorId(this.annotatorID);
 		ngram.setElementType(type_grams);
 		ngram.setBegin(beg_a);
 		ngram.setEnd(end_a);
+		ngram.setLine_doc(line_doc);
+		ngram.setCasProcessorId(this.annotatorID);
+		ngram.setConfidence(1.0);
+		
 		return ngram;
 	}
 }

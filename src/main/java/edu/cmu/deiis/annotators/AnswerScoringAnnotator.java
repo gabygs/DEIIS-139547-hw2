@@ -29,97 +29,121 @@ public class AnswerScoringAnnotator extends JCasAnnotator_ImplBase{
 		AnnotationIndex<Annotation> annot_ans = aJCas.getAnnotationIndex(Answer.type);
 		FSIterator<Annotation> ngrams_iter =annot_ngrams.iterator();
 		FSIterator<Annotation> ans_iter =annot_ans.iterator();
-		//NGram ngram;
-		String inText = aJCas.getDocumentText();
-		
-		ArrayList<NGram> q_ngrams =new ArrayList<NGram>();
-		ArrayList<NGram> a_ngrams =new ArrayList<NGram>();
-		HashSet<String> q_ngrams_S = new HashSet<String>();
-		HashSet<String> a_ngrams_S = new HashSet<String>();
+		NGram ngram;
 
-        String[] lines = inText.split("\n");
-        int countAns =0;
-        int[] indx =new int[lines.length];
-        
+		ArrayList<Integer> line_ngrams =new ArrayList<Integer>();
+		ArrayList<Integer> count_ngrams =new ArrayList<Integer>();
+		
+		ArrayList<Annotation> all_ngrams =new ArrayList<Annotation>();
+		ArrayList<Annotation> q_ngrams =new ArrayList<Annotation>();
+		ArrayList<Annotation> eachA_ngrams =new ArrayList<Annotation>();
+		ArrayList<Annotation> a_ngrams =new ArrayList<Annotation>();
+		
+		ArrayList<Answer> answers =new ArrayList<Answer>();
+		
+		        
         System.out.println("=================== ANSWER SCORING ======================");
-        //Count number of answers and max indexes length for each answer..
-        for(int numL=0; numL < lines.length; numL++){
-			String eachline = lines[numL];
-			if(numL==0)
-				indx[numL]=eachline.length();
-			
-			if(eachline.startsWith("A ")){
-				countAns++;
-				indx[numL]=eachline.length()+indx[numL-1];
-			}
-		}
+        
+        
+        //get all ngrams
+        while(ngrams_iter.hasNext()){
+        	all_ngrams.add(ngrams_iter.next());
+        }
+        //get all answers
+        while(ans_iter.hasNext()){
+			//answer_a = (Answer)ans_iter.next();
+			answers.add((Answer)ans_iter.next());
+        }
 
-        String[] eachAnw = new String[countAns];
-      String currQuest="";
+      
         //separate NGrams into Question and Answer types
-		while(ngrams_iter.hasNext()){
-			NGram ngram =(NGram)ngrams_iter.next();
-			if(ngram.getElementType().equals("Question")){
-				q_ngrams.add(ngram);
-				String dummy =inText.substring(ngram.getBegin(),ngram.getEnd()); 
-				q_ngrams_S.add(dummy);
-				currQuest=dummy;
-				System.out.println("CurrQuest:"+currQuest);
-				
-			}
-			if(ngram.getElementType().equals("Answer")){
-				a_ngrams.add(ngram);
-				String dummy =inText.substring(ngram.getBegin(),ngram.getEnd()); 
-				a_ngrams_S.add(dummy);
-				
-				for(int anws=0;anws<countAns;anws++){
-					if(ngram.getEnd()>indx[anws] && ngram.getEnd()<indx[anws])
-						eachAnw[anws]=eachAnw[anws]+" "+dummy;	
-					System.out.println("EachAns:"+eachAnw[anws]);
-					
-				}
-				
-			}	
-		}
-		
-		//Feed Answers, one by one...
-		
-		Answer answer_a=null;
-		System.out.println("CountAns: "+countAns);
-		//Counting is working excelent :)
-		
-		while(ans_iter.hasNext()){
-		for(int anws=0;anws<countAns;anws++){
-			answer_a = (Answer)ans_iter.next();
-			//answer_a = ans_iter.next();
-			
-			score=calculateScore(eachAnw[anws],currQuest);
-			System.out.println("Answer SCORE: "+score);
-			answer_score = new AnswerScore(aJCas);
-			answer_score.setBegin(answer_a.getBegin());
-			answer_score.setEnd(answer_a.getEnd());
-			answer_score.setAnswer(answer_a);
-			answer_score.setScore(score);
-			answer_score.addToIndexes();
-			answer_score.setCasProcessorId(annotatorID);	
-			}
-		}
-
-        System.out.println("==========================================================");
+        for(int i=0;i<all_ngrams.size();i++){
+        	ngram= (NGram)all_ngrams.get(i);
+        		
+        	if(ngram.getElementType().equals("Q")){
+        		q_ngrams.add(all_ngrams.get(i));
+        	}
+        	else if(ngram.getElementType().equals("A")){
+        		a_ngrams.add(all_ngrams.get(i));
+        		line_ngrams.add(ngram.getLine_doc());
+        	}
+        }
+        
+        int count_numNgrams=0;
+        int counter=1;
+        int countA=0;
+        //System.out.println("SIZE LINE GRAMS: "+line_ngrams.size());
+    	
+        for(int i=0;i<line_ngrams.size();i++){
+        	if(line_ngrams.get(i)==counter){
+        		count_numNgrams++;
+        		eachA_ngrams.add(a_ngrams.get(i));//added
+        		//countN++;
+        		
+        	}else{
+        		count_ngrams.add(count_numNgrams);
+        		//System.out.println("SIZE: "+eachA_ngrams.size());
+        		score=calculateScore(eachA_ngrams,q_ngrams);
+        		System.out.println("Answer SCORE: "+score);
+        		answer_score = new AnswerScore(aJCas);
+        		answer_score.setBegin(answers.get(countA).getBegin());
+        		answer_score.setEnd(answers.get(countA).getEnd());
+        		answer_score.setScore(score);
+        		answer_score.setAnswer(answers.get(countA));
+        		answer_score.addToIndexes();
+        		answer_score.setCasProcessorId(annotatorID);	
+        		answer_score.setConfidence(1.0);	
+        		eachA_ngrams.clear();
+        		
+        		count_numNgrams=1;
+        		counter++;
+        		countA++;
+        	}
+        	if(i==(line_ngrams.size()-1)){
+        		count_ngrams.add(count_numNgrams);
+        		//System.out.println("SIZE: "+eachA_ngrams.size());
+        		score=calculateScore(eachA_ngrams,q_ngrams);
+        		System.out.println("Answer SCORE: "+score);
+        		answer_score = new AnswerScore(aJCas);
+        		answer_score.setBegin(answers.get(countA).getBegin());
+        		answer_score.setEnd(answers.get(countA).getEnd());
+        		answer_score.setScore(score);
+        		answer_score.setAnswer(answers.get(countA));
+        		answer_score.addToIndexes();
+        		answer_score.setCasProcessorId(annotatorID);	
+        		answer_score.setConfidence(1.0);	
+        		
+        		eachA_ngrams.clear();
+        		countA++;
+        		
+        	}	
+        }
+       // System.out.println("==========================================================");
         System.out.println("");
 	}
 
 	//Calculate score according to Jaccard Index
-	public double calculateScore(String answer_ngrams,String question_ngrams){
-		HashSet<String> intersected_ngrams = new HashSet<String>();
-		HashSet<String> unique_ngrams = new HashSet<String>();
-          
-		intersected_ngrams.addAll(Arrays.asList(answer_ngrams.split("\\s+")));
-		//boolean addAll= unique_ngrams.addAll(Arrays.asList(question_ngrams.split("\\s+")));
-		int sizeIntersected = intersected_ngrams.size(); 
-		int union = sizeIntersected + unique_ngrams.size();
+	public double calculateScore(ArrayList<Annotation> answer_ngrams, ArrayList<Annotation> question_ngrams){
+		HashSet<NGram> intersected_ngrams = new HashSet<NGram>();
+		HashSet<NGram> unique_ngrams = new HashSet<NGram>();
+		HashSet<NGram> dummy = new HashSet<NGram>();
+        
+        
+		for(int i=0;i<answer_ngrams.size();i++){        
+        	intersected_ngrams.add((NGram)answer_ngrams.get(i));
+        }
+		for(int i=0;i<question_ngrams.size();i++){        
+	        unique_ngrams.add((NGram)question_ngrams.get(i));
+		}
+		dummy.addAll(intersected_ngrams);
+		dummy.addAll(unique_ngrams);
+		unique_ngrams.removeAll(intersected_ngrams);
+		
+		//Union 
+		int union = dummy.size();
 		int intersection = intersected_ngrams.size();
 		
 		return (double)intersection/union;
+		
 	}
 }

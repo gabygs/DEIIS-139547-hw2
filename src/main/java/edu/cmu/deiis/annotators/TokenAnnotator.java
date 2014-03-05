@@ -27,11 +27,11 @@ public class TokenAnnotator extends JCasAnnotator_ImplBase  {
         int countLine=1;
 
         System.out.println("=================== TOKEN ANNOTATOR ======================");
-        for(int L=0;L<lines.length;L++){
+        /*for(int L=0;L<lines.length;L++){
         	System.out.println(lines[L].toString());
         	System.out.println("Length: "+lines[L].length());
 
-        }
+        }*/
         int[] maxLs=new int [lines.length];
 		
         
@@ -64,11 +64,11 @@ public class TokenAnnotator extends JCasAnnotator_ImplBase  {
 					token=new Token(aJCas);
 					int beg_ind=0,end_ind=0;
 					
-		            System.out.println(words[ws].toString());
+		            //System.out.println(words[ws].toString());
 		            beg_ind = cutline.toLowerCase().indexOf(words[ws])+indexCount+dummy;
 		            end_ind=beg_ind+words[ws].length();
-		            System.out.println("i: "+beg_ind);
-		            System.out.println("j: "+end_ind);
+		            //System.out.println("i: "+beg_ind);
+		            //System.out.println("j: "+end_ind);
 		            
 		            if(q_a==1){
 		            	token.setToken_type("Q");
@@ -88,13 +88,15 @@ public class TokenAnnotator extends JCasAnnotator_ImplBase  {
 		            token.setEnd(end_ind);
 		            
 		            token.setCasProcessorId(this.annotatorID);
+		            token.setConfidence(1.0);
+					
 		            token.addToIndexes();
 		        }
 				indexCount=0;
 				dummy=dummy+lines[numL].length()+1;
 			}
 
-        System.out.println("=======================================================");
+        //System.out.println("=======================================================");
         System.out.println("");
 	}
 }

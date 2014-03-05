@@ -48,12 +48,14 @@ public class TestElementAnnotator extends JCasAnnotator_ImplBase  {
 				anw.setIsCorrect(initIsCorrect.equals("1"));
 				
 				anw.setCasProcessorId(this.annotatorID);
+
+				anw.setConfidence(1.0);
 				anw.addToIndexes();
 			}
 			l_offset+= eachline.length() + 1;
 
 	    }
-		System.out.println("=======================================================");
+		//System.out.println("=======================================================");
         System.out.println("");
 
 		
