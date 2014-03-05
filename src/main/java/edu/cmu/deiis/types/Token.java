@@ -11,8 +11,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Wed Mar 05 03:21:30 CST 2014
- * XML source: /Users/IBAGNOG/Documents/workspace/hw2-139547/src/main/resources/testingaae.xml
+ * Updated by JCasGen Wed Mar 05 04:27:23 CST 2014
+ * XML source: /Users/IBAGNOG/Documents/workspace/hw2-139547/src/main/resources/descriptors/deiis_types.xml
  * @generated */
 public class Token extends Annotation {
   /** @generated
@@ -86,7 +86,7 @@ public class Token extends Annotation {
   //*--------------*
   //* Feature: line_doc
 
-  /** getter for line_doc - gets To which line in the document the token corresponds to.
+  /** getter for line_doc - gets Identifier for the token, to which line in the document the token corresponds to.
    * @generated
    * @return value of the feature 
    */
@@ -95,7 +95,7 @@ public class Token extends Annotation {
       jcasType.jcas.throwFeatMissing("line_doc", "edu.cmu.deiis.types.Token");
     return jcasType.ll_cas.ll_getIntValue(addr, ((Token_Type)jcasType).casFeatCode_line_doc);}
     
-  /** setter for line_doc - sets To which line in the document the token corresponds to. 
+  /** setter for line_doc - sets Identifier for the token, to which line in the document the token corresponds to. 
    * @generated
    * @param v value to set into the feature 
    */

@@ -35,6 +35,7 @@ public class TestElementAnnotator extends JCasAnnotator_ImplBase  {
 				quest=new Question(aJCas);
 				quest.setBegin(l_offset+2);
 				quest.setEnd(l_offset + eachline.length());
+				quest.setConfidence(1.0);
 				quest.setCasProcessorId(this.annotatorID);
 				quest.addToIndexes();
 			}
@@ -44,7 +45,7 @@ public class TestElementAnnotator extends JCasAnnotator_ImplBase  {
 				anw.setEnd(l_offset + eachline.length());
 				
 				String initIsCorrect = eachline.substring(2, 3);
-				//Initial value..
+				
 				anw.setIsCorrect(initIsCorrect.equals("1"));
 				
 				anw.setCasProcessorId(this.annotatorID);

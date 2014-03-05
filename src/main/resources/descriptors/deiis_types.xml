@@ -35,7 +35,7 @@
         </featureDescription>
       <featureDescription>
           <name>line_doc</name>
-          <description>To which line in the document the token corresponds to.</description>
+          <description>Identifier for the token, to which line in the document the token corresponds to.</description>
           <rangeTypeName>uima.cas.Integer</rangeTypeName>
         </featureDescription>
       </features>
@@ -61,12 +61,7 @@
           <description>Line in the document to which the NGram corresponds to.</description>
           <rangeTypeName>uima.cas.Integer</rangeTypeName>
         </featureDescription>
-        <featureDescription>
-          <name>n_size</name>
-          <description>Size of the N in the NGram</description>
-          <rangeTypeName>uima.cas.Integer</rangeTypeName>
-        </featureDescription>
-      </features>
+        </features>
     </typeDescription>
     <typeDescription>
       <name>edu.cmu.deiis.types.Answer</name>

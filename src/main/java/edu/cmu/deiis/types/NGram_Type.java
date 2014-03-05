@@ -13,7 +13,7 @@ import org.apache.uima.cas.impl.FeatureImpl;
 import org.apache.uima.cas.Feature;
 
 /** 
- * Updated by JCasGen Wed Mar 05 03:21:30 CST 2014
+ * Updated by JCasGen Wed Mar 05 04:27:23 CST 2014
  * @generated */
 public class NGram_Type extends Annotation_Type {
   /** @generated */
@@ -119,30 +119,6 @@ public class NGram_Type extends Annotation_Type {
     ll_cas.ll_setIntValue(addr, casFeatCode_line_doc, v);}
     
   
- 
-  /** @generated */
-  final Feature casFeat_n_size;
-  /** @generated */
-  final int     casFeatCode_n_size;
-  /** @generated
-   * @param addr low level Feature Structure reference
-   * @return the feature value 
-   */ 
-  public int getN_size(int addr) {
-        if (featOkTst && casFeat_n_size == null)
-      jcas.throwFeatMissing("n_size", "edu.cmu.deiis.types.NGram");
-    return ll_cas.ll_getIntValue(addr, casFeatCode_n_size);
-  }
-  /** @generated
-   * @param addr low level Feature Structure reference
-   * @param v value to set 
-   */    
-  public void setN_size(int addr, int v) {
-        if (featOkTst && casFeat_n_size == null)
-      jcas.throwFeatMissing("n_size", "edu.cmu.deiis.types.NGram");
-    ll_cas.ll_setIntValue(addr, casFeatCode_n_size, v);}
-    
-  
 
 
 
@@ -163,10 +139,6 @@ public class NGram_Type extends Annotation_Type {
  
     casFeat_line_doc = jcas.getRequiredFeatureDE(casType, "line_doc", "uima.cas.Integer", featOkTst);
     casFeatCode_line_doc  = (null == casFeat_line_doc) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_line_doc).getCode();
-
- 
-    casFeat_n_size = jcas.getRequiredFeatureDE(casType, "n_size", "uima.cas.Integer", featOkTst);
-    casFeatCode_n_size  = (null == casFeat_n_size) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_n_size).getCode();
 
   }
 }
